@@ -1,58 +1,76 @@
 ﻿@model Marketplace.Interview.Web.Views.Home.InterviewViewModel
-@using Marketplace.Interview.Business.Shipping 
+@using Marketplace.Interview.Business.Shipping
 @using Marketplace.Interview.Web
 @{
     ViewBag.Title = "Index";
 }
 
 <h2>Astar Pets Shipping App</h2>
-
 <fieldset>
     <h2>Your shopping basket:</h2>
     <p>
-        
+
     </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="center" width="5%">Product Id</th>
+                <th class="center" width="5%">Supplier Id</th>
+                <th class="center" width="5%">Amount</th>
+                <th width="20%">Shipping</th>
+                <th class="center" width="5%">Shipping Amount</th>
+                <th width="5%"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var li in Model.Basket.LineItems)
+            {
 
-    <table>
-    <thead><tr><th>ProductId</th><th>SupplierId</th><th>Amount</th><th>Shipping</th><th>Shipping Amount</th></tr></thead>
-    <tbody>
-    @foreach (var li in Model.Basket.LineItems)
-    {
-
-        <tr>
-            <td>@li.ProductId</td>
-            <td>@li.SupplierId</td>
-            <td>@li.Amount</td>
-            <td>@li.ShippingDescription</td>
-            <td>@li.ShippingAmount</td>
-            <td class="button-container">@using (Html.BeginForm("RemoveItem", "Home", new {li.Id}, FormMethod.Post))
-                {
-                    <input type="submit" value="Remove" />
-                }
-            </td></tr>
-    }
-    </tbody>
+                <tr>
+                    <td class="center">@li.ProductId</td>
+                    <td class="center">@li.SupplierId</td>
+                    <td class="center">@li.Amount</td>
+                    <td>@li.ShippingDescription</td>
+                    <td class="center">@li.ShippingAmount</td>
+                    <td class="button-container center">
+                        @using (Html.BeginForm("RemoveItem", "Home", new { li.Id }, FormMethod.Post))
+                        {
+                            <input type="submit" class="btn btn-remove" value="Remove" />
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
-    </fieldset>
-
-    <fieldset>
+</fieldset>
+<fieldset>
     <h2>Add new item:</h2>
-    @using (Html.BeginForm("AddItem", "Home", FormMethod.Post))
+    @using (Html.BeginForm("AddItem", "Home", FormMethod.Post, new { @class = "form" }))
     {
-        <label>ProductId:</label>
-        @Html.TextBox("ProductId")
-        <br />
-        <label>Amount:</label>
-        @Html.TextBox("Amount")<br />
-        <label>Shipping:</label>
-        @Html.DropDownList("ShippingOption", Model.ShippingOptions.Select(x => new SelectListItem() {Text = x.Key, Value = x.Key}))
-        <br />
-        <label>SupplierId:</label>
-        @Html.TextBox("SupplierId")
-        <br />
-        <label>DeliveryRegion:</label>
-        @Html.DropDownList("DeliveryRegion", typeof (RegionShippingCost.Regions))
-        <br />
-        <input type="submit" value="Submit" />
+        <div class="form-group">
+            <label class="control-label col-sm-3">Product Id:</label>
+            <div class="col-sm-7">@Html.TextBox("ProductId", null, new { @class = "form-control" })</div>
+
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">Amount:</label>
+            @Html.TextBox("Amount", null, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">Shipping:</label>
+            @Html.DropDownList("ShippingOption", Model.ShippingOptions.Select(x => new SelectListItem() { Text = x.Key, Value = x.Key }), null, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">Supplier Id:</label>
+            @Html.TextBox("SupplierId", null, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">Delivery Region:</label>
+            @Html.DropDownList("DeliveryRegion", typeof(RegionShippingCost.Regions))
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3"></label>
+            <input type="submit" class="btn btn-primary save-shipping" value="Submit" />
+        </div>
     }
-      </fieldset>
+</fieldset>

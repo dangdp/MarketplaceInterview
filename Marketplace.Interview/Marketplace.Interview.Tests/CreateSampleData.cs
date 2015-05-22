@@ -33,6 +33,17 @@ namespace Marketplace.Interview.Tests
                             new RegionShippingCost{DestinationRegion = RegionShippingCost.Regions.RestOfTheWorld, Amount = 2m},
                         }
                     }
+                },
+                 {
+                    "DangDpShipping", new DangDpShipping
+                    {
+                        PerRegionCosts = new List<RegionShippingCost>
+                        {
+                            new RegionShippingCost{DestinationRegion = RegionShippingCost.Regions.UK, Amount = .5m},
+                            new RegionShippingCost{DestinationRegion = RegionShippingCost.Regions.Europe, Amount = 1m},
+                            new RegionShippingCost{DestinationRegion = RegionShippingCost.Regions.RestOfTheWorld, Amount = 2m},
+                        }
+                    }
                 }
             };
 
@@ -53,7 +64,7 @@ namespace Marketplace.Interview.Tests
         [Test]
         public void GetConstants()
         {
-            var constants = ReflectionHelpers.GetConstants(typeof (RegionShippingCost.Regions));
+            var constants = ReflectionHelpers.GetConstants(typeof(RegionShippingCost.Regions));
 
             Assert.That(constants.Count(), Is.EqualTo(3));
         }
